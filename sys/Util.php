@@ -98,19 +98,6 @@ class Util {
         return false;
     }
 
-    static function dealException(\Exception $e) {
-        // 错误码大于等于100时当做http状态码，否则当做自定义的错误码
-        if ($e->getCode() >= 100) {
-            $method_name = "httpHeader{$e->getCode()}";
-            if (!method_exists(new self, $method_name)) {
-                $method_name = 'httpHeader503';
-            }
-            self::$method_name($e->getMessage());
-        } else {
-            self::httpHeader503($e->getMessage(), $e->getCode());
-        }
-    }
-
     static function serverResponse($status = 1, $msg = '', $result = array(), array $extra = array()) {
         $response = array('status' => intval($status), 'msg' => strval($msg));
         if ($status > 0 || $result) {
@@ -118,21 +105,6 @@ class Util {
             $response['result'] = $result;
         }
         return json_encode($response);
-    }
-
-    static function output($result = array(), $extra = array()) {
-        if (is_string($result)) {
-            echo $result;
-        } else {
-            $status = 1;
-            $msg    = 'OK';
-            if (empty($result)) {
-                $status = 0;
-                $msg    = 'result is empty';
-            }
-            echo self::serverResponse($status, $msg, $result, $extra);
-        }
-        exit;
     }
 
     static function httpHeader200($msg = '', $status = 0) {

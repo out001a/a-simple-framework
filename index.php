@@ -1,7 +1,7 @@
 <?php
 namespace simple;
 
-use \simple\sys\Util as Util;
+use \simple\sys\Response as Response;
 
 require __DIR__ . '/bootstrap.php';
 
@@ -37,9 +37,12 @@ $sapi = php_sapi_name();
 if ($sapi == 'cli') {
     $code = 0;
     $msg  = 'SUCC';
+    ob_start();
     try {
         call_callable(get_callable('cli'));
+        ob_end_flush();
     } catch (\Exception $e) {
+        ob_end_clean();
         $msg  = $e->getMessage();
         $code = 1;
     }
@@ -49,10 +52,13 @@ if ($sapi == 'cli') {
 
 // 以cgi模式（web程序）执行
 if (stripos($sapi, 'cgi') !== false || stripos($sapi, 'apache') !== false) {
+    ob_start();
     try {
         call_callable(get_callable('cgi'));
+        ob_end_flush();
     } catch (\Exception $e) {
-        Util::dealException($e);
+        ob_end_clean();
+        Response::dealException($e);
     }
     exit();
 }

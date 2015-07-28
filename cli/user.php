@@ -1,12 +1,15 @@
 <?php
 namespace simple\cli;
 
-use \simple\sys\Util as Util;
+use \simple\sys\Response as Response;
 
 class User {
 
     public function say($word) {
-        Util::output(\simple\app\User::say($word));
+        // 正常输出
+        Response::send(\simple\app\User::say($word));
+        // 异常处理
+        throw new \Exception('exception occured!', Response::STATUS_EXPIRED);
     }
 
 }
