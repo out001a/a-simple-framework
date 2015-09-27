@@ -1,6 +1,9 @@
 <?php
 namespace simple\sys;
 
+use \Redis as Redis;
+use \Exception as Exception;
+
 class Cache {
 
     private static $_clients = array(
@@ -43,7 +46,7 @@ class Cache {
             if (method_exists($redis, $name)) {
                 $rtn = call_user_func_array(array($redis, $name), $args);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // pass
         }
         return $rtn;
@@ -59,7 +62,7 @@ class Cache {
                 $ttl = $this->_expire;
             }
             $rtn = $redis->setex($k, $ttl, $v);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // pass
         }
         return $rtn;
@@ -71,8 +74,8 @@ class Cache {
     private function _conn($key) {
         $id = $this->_getServerId($key, count($this->_serverInfo['server']));
 
-        if (!(self::$_clients[$id]['cli'] instanceof \Redis)) {
-            self::$_clients[$id]['cli'] = new \Redis();
+        if (!(self::$_clients[$id]['cli'] instanceof Redis)) {
+            self::$_clients[$id]['cli'] = new Redis();
         }
 
         if (!@is_resource(self::$_clients[$id]['cli']->socket)) {

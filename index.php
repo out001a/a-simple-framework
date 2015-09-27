@@ -1,6 +1,7 @@
 <?php
 namespace simple;
 
+use \Exception as Exception;
 use \simple\sys\Response as Response;
 
 require __DIR__ . '/bootstrap.php';
@@ -41,7 +42,7 @@ if ($sapi == 'cli') {
     try {
         call_callable(get_callable('cli'));
         ob_end_flush();
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         ob_end_clean();
         $msg  = $e->getMessage();
         $code = 1;
@@ -56,7 +57,7 @@ if (stripos($sapi, 'cgi') !== false || stripos($sapi, 'apache') !== false) {
     try {
         call_callable(get_callable('cgi'));
         ob_end_flush();
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         ob_end_clean();
         Response::dealException($e);
     }
@@ -69,7 +70,7 @@ function call_callable($callable) {
     if (is_callable($callable[0])) {
         return call_user_func_array($callable[0], $callable[1]);
     } else {
-        throw new \Exception("method is not callable, {$callable[0][1]}", -1);
+        throw new Exception("method is not callable, {$callable[0][1]}", -1);
     }
 }
 

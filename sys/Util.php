@@ -1,11 +1,13 @@
 <?php
 namespace simple\sys;
 
+use \Exception as Exception;
+
 class Util {
     static function ip2Numeric($ip) {
         $numeric = sprintf('%u', ip2long($ip));
         if (empty($numeric)) {
-            throw new \Exception('given ip string is invalid!', -1);
+            throw new Exception('given ip string is invalid!', -1);
         }
         return $numeric;
     }

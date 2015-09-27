@@ -1,6 +1,8 @@
 <?php
 namespace simple;
 
+use \Exception as Exception;
+
 /// consts
 const PROJECT      = 'Sample';
 const ROOT_DIR     = __DIR__;
@@ -14,7 +16,7 @@ spl_autoload_register(function($class) {
         if (file_exists($file)) {
             require $file;
         } else {
-            throw new \Exception("class not found, {$class}", -1);
+            throw new Exception("class not found, {$class}", -1);
         }
     }
 });

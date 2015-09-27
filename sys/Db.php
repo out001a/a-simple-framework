@@ -1,6 +1,8 @@
 <?php
 namespace simple\sys;
 
+use \PDO as PDO;
+
 class Db {
     private static $_handlers;
     private static $_is_select = true;
@@ -10,7 +12,7 @@ class Db {
         if (self::$_is_select) {
             $data = array();
             $stmt = self::_handler()->query($sql);
-            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
         } else {
@@ -21,12 +23,12 @@ class Db {
 
     private static function _handler() {
         $type = (self::$_is_select? 'r' : 'w');
-        if (empty(self::$_handlers[$type]) || !(self::$_handlers[$type] instanceof \PDO)) {
+        if (empty(self::$_handlers[$type]) || !(self::$_handlers[$type] instanceof PDO)) {
             $db = Config::load('db');
             $db = $db[$type];
             $dsn = "mysql:host={$db['host']};dbname={$db['name']}";
-            self::$_handlers[$type] = @new \PDO($dsn, $db['user'], $db['pass'], array(
-                \PDO::ATTR_PERSISTENT => true, \PDO::ATTR_TIMEOUT => $db['timeout'],
+            self::$_handlers[$type] = @new PDO($dsn, $db['user'], $db['pass'], array(
+                PDO::ATTR_PERSISTENT => true, PDO::ATTR_TIMEOUT => $db['timeout'],
             ));
             self::$_handlers[$type]->exec('SET NAMES utf8');
         }
