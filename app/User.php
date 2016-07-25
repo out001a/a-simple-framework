@@ -1,8 +1,8 @@
 <?php
 namespace simple\app;
 
-use \simple\sys\Util as Util;
-use \simple\sys\Config as Config;
+use simple\sys\Config;
+use simple\model\User as UserModel;
 
 class User {
 
@@ -13,7 +13,7 @@ class User {
 
     public function say($word) {
         return array(
-            'say' => (new \simple\model\User())->say($word),
+            'say' => (new UserModel())->say($word),
             'get' => $_GET,
             'redis_config' => Config::load('redis'),
             // 'server' => $_SERVER,

@@ -1,8 +1,8 @@
 <?php
 namespace simple\sys;
 
-use \Redis as Redis;
-use \Exception as Exception;
+use Redis;
+use Exception;
 
 class Cache {
 

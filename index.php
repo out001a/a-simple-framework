@@ -1,8 +1,8 @@
 <?php
 namespace simple;
 
-use \Exception as Exception;
-use \simple\sys\Response as Response;
+use Exception;
+use simple\sys\Response;
 
 require __DIR__ . '/bootstrap.php';
 

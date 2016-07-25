@@ -1,7 +1,7 @@
 <?php
 namespace simple;
 
-use \Exception as Exception;
+use Exception;
 
 /// consts
 const PROJECT      = 'Sample';

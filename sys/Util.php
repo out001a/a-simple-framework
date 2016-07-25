@@ -1,7 +1,7 @@
 <?php
 namespace simple\sys;
 
-use \Exception as Exception;
+use Exception;
 
 class Util {
     static function ip2Numeric($ip) {

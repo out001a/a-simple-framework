@@ -1,7 +1,7 @@
 <?php
 namespace simple\sys;
 
-use \PDO as PDO;
+use PDO;
 
 class Db {
     private static $_handlers;
